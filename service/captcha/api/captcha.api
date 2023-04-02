@@ -1,0 +1,36 @@
+type (
+	getCaptchaIdResp {
+		Id  string `json:"id"`
+		Src string `json:"src"`
+	}
+
+	getCaptchaPngReq {
+		Id string `path:"id"`
+	}
+
+	refreshCaptchaReq {
+		Id string `path:"id"`
+	}
+
+	verifyCaptchaReq {
+		Id     string `json:"id"`
+		Digits string `json:"digits"`
+	}
+)
+
+@server(
+	prefix : api
+)
+service captcha {
+	@handler getCaptchaId
+	get /captcha returns (getCaptchaIdResp)
+	
+	@handler getCaptchaPng
+	get /captcha/:id (getCaptchaPngReq)
+	
+	@handler refreshCaptcha
+	put /captcha/:id (refreshCaptchaReq)
+	
+	@handler verifyCaptcha
+	post /captcha/verify (verifyCaptchaReq)
+}
