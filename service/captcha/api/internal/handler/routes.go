@@ -14,25 +14,25 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/captcha",
+				Path:    "/",
 				Handler: getCaptchaIdHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/captcha/:id",
+				Path:    "/:id",
 				Handler: getCaptchaPngHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,
-				Path:    "/captcha/:id",
+				Path:    "/:id",
 				Handler: refreshCaptchaHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/captcha/verify",
+				Path:    "/verify",
 				Handler: verifyCaptchaHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/api"),
+		rest.WithPrefix("/api/captcha"),
 	)
 }

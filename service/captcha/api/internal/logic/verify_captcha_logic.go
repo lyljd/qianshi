@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/dchest/captcha"
 	"qianshi/common/response/errorx"
+	"time"
 
 	"qianshi/service/captcha/api/internal/svc"
 	"qianshi/service/captcha/api/internal/types"
@@ -28,6 +29,7 @@ func NewVerifyCaptchaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ver
 func (l *VerifyCaptchaLogic) VerifyCaptcha(req *types.VerifyCaptchaReq) *errorx.Error {
 	ok := captcha.VerifyString(req.Id, req.Digits)
 	if ok {
+		l.svcCtx.RedisCli.SetEX(context.Background(), "captcha:verify:"+req.Id, "", time.Second*30)
 		return nil
 	}
 	return errorx.NewDefault("验证码错误")

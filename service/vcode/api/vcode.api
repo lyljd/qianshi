@@ -1,0 +1,16 @@
+type sendEmailReq {
+	Email string `json:"email"`
+	Cid   string `json:"cid"`
+}
+
+type sendEmailResp {
+	CD int `json:"cd,omitempty"`
+}
+
+@server(
+	prefix : /api/vcode
+)
+service vcode {
+	@handler sendEmail
+	post /email (sendEmailReq) returns (sendEmailResp)
+}

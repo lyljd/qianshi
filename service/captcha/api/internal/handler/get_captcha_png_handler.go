@@ -8,7 +8,7 @@ import (
 	"qianshi/service/captcha/api/internal/types"
 )
 
-func getCaptchaPngHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func getCaptchaPngHandler(_ *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.GetCaptchaPngReq
 		if err := httpx.Parse(r, &req); err != nil {

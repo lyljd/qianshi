@@ -17,7 +17,8 @@ func Response(w http.ResponseWriter, resp any, err *errorx.Error) {
 	if err != nil {
 		body.Code = err.Code()
 		body.Msg = err.Msg()
-	} else {
+	}
+	if resp != nil {
 		body.Data = resp
 	}
 	httpx.OkJson(w, body)

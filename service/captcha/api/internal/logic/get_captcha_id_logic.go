@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/dchest/captcha"
 	"github.com/zeromicro/go-zero/core/logx"
-	"os"
 	"qianshi/common/response/errorx"
 	"qianshi/service/captcha/api/internal/svc"
 	"qianshi/service/captcha/api/internal/types"
@@ -28,6 +27,6 @@ func (l *GetCaptchaIdLogic) GetCaptchaId() (resp *types.GetCaptchaIdResp, err *e
 	id := captcha.New()
 	return &types.GetCaptchaIdResp{
 		Id:  id,
-		Src: os.Getenv("SERVER_ADDR") + "/api/captcha/" + id,
+		Src: l.svcCtx.ServerAddr + "/api/captcha/" + id,
 	}, nil
 }

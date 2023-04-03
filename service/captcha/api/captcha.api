@@ -19,18 +19,18 @@ type (
 )
 
 @server(
-	prefix : api
+	prefix : /api/captcha
 )
 service captcha {
 	@handler getCaptchaId
-	get /captcha returns (getCaptchaIdResp)
+	get / returns (getCaptchaIdResp)
 	
 	@handler getCaptchaPng
-	get /captcha/:id (getCaptchaPngReq)
+	get /:id (getCaptchaPngReq)
 	
 	@handler refreshCaptcha
-	put /captcha/:id (refreshCaptchaReq)
+	put /:id (refreshCaptchaReq)
 	
 	@handler verifyCaptcha
-	post /captcha/verify (verifyCaptchaReq)
+	post /verify (verifyCaptchaReq)
 }
