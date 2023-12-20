@@ -1,0 +1,22 @@
+syntax = "v1"
+
+type GenerateResp {
+    Id string `json:"id"`
+}
+
+type GetReq {
+    Id string `path:"id"`
+}
+
+type GetResp {
+    Image string `json:"image"`
+}
+
+type ReloadReq {
+    Id string `json:"id"`
+}
+
+type VerifyReq {
+    Id string `json:"id"`
+    Code string `json:"code"`
+}

@@ -1,0 +1,10 @@
+syntax = "v1"
+
+type LoginReq {
+    Email string `json:"email"`
+    CaptchaId string `json:"captcha_id"`
+}
+
+type LoginResp {
+    Ttl int `json:"ttl"`
+}

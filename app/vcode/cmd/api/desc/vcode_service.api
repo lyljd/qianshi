@@ -1,0 +1,12 @@
+syntax = "v1"
+
+import "vcode_type.api"
+
+@server(
+	prefix: /api/v1/vcode/email
+	group: email
+)
+service User {
+	@handler Login
+	post /login (LoginReq) returns (LoginResp)
+}

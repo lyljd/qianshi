@@ -1,0 +1,21 @@
+syntax = "v1"
+
+import "captcha_type.api"
+
+@server(
+	prefix: /api/v1/captcha/image
+	group: image
+)
+service Captcha {
+	@handler Generate
+	get / returns (GenerateResp)
+
+	@handler Get
+	get /:id (GetReq) returns (GetResp)
+
+	@handler Reload
+	post /reload (ReloadReq)
+
+	@handler Verify
+	post /verify (VerifyReq)
+}

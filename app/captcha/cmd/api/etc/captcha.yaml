@@ -1,0 +1,6 @@
+Name: Captcha-api
+Host: 0.0.0.0
+Port: 9001
+Mode: dev
+Log:
+  Stat: false
