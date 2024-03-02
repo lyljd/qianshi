@@ -5,5 +5,13 @@ func GetCaptchaVerify(captchaId string) string {
 }
 
 func GetVcodeLoginVerify(email string) string {
-	return "vcode:verify:login" + email
+	return "vcode:verify:login:" + email
+}
+
+func GetVcodeChangePasswordVerify(email string) string {
+	return "vcode:verify:changePassword:" + email
+}
+
+func GetUserChangePasswordVerify(email string) string {
+	return "user:verify:changePassword:" + email
 }

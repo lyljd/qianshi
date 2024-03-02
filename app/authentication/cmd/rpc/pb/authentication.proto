@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = ".";
+
+message GenerateTokenReq {
+  int64 uid = 1;
+}
+message GenerateTokenResp {
+  string token = 1;
+}
+message GenerateRefreshTokenReq {
+  int64 uid = 1;
+}
+message GenerateRefreshTokenResp {
+  string token = 1;
+}
+
+message VerifyTokenReq {
+  string token = 1;
+}
+message VerifyTokenResp {
+  int64 uid = 1;
+}
+message VerifyRefreshTokenReq {
+  string token = 1;
+}
+message VerifyRefreshTokenResp {
+  int64 uid = 1;
+}
+
+service Authentication {
+  rpc GenerateToken(GenerateTokenReq) returns (GenerateTokenResp);
+  rpc GenerateRefreshToken(GenerateRefreshTokenReq) returns (GenerateRefreshTokenResp);
+
+  rpc VerifyToken(VerifyTokenReq) returns (VerifyTokenResp);
+  rpc VerifyRefreshToken(VerifyRefreshTokenReq) returns (VerifyRefreshTokenResp);
+}

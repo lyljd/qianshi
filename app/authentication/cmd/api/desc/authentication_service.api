@@ -1,0 +1,12 @@
+syntax = "v1"
+
+import "authentication_type.api"
+
+@server(
+	prefix: /api/v1/auth/token
+	group: token
+)
+service Authentication {
+	@handler Refresh
+	post /refresh (TokenRefreshReq) returns (TokenRefreshResp)
+}

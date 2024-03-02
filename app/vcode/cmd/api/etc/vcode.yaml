@@ -1,0 +1,10 @@
+Name: vcode-api
+Host: 0.0.0.0
+Port: 9003
+Timeout: 6000
+Mode: dev
+Log:
+  Stat: false
+Telemetry:
+  Name: vcode-api
+  Endpoint: http://127.0.0.1:14268/api/traces

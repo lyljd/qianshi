@@ -15,7 +15,7 @@ type ServiceContext struct {
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
-		Email:  email.New163Dialer(c.EmailSender, c.EmailUsername, c.EmailPassword),
+		Email:  email.NewExmailDialer(c.EmailSender, c.EmailUsername, c.EmailPassword),
 		Redis: redis.NewClient(&redis.Options{
 			Addr:     c.RedisAddr,
 			Password: c.RedisPassword,

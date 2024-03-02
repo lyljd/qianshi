@@ -1,6 +1,9 @@
-Name: Captcha-api
+Name: captcha-api
 Host: 0.0.0.0
 Port: 9001
 Mode: dev
 Log:
   Stat: false
+Telemetry:
+  Name: captcha-api
+  Endpoint: http://127.0.0.1:14268/api/traces

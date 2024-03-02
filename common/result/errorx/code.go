@@ -1,7 +1,8 @@
 package errorx
 
+// code不能为负数，不然会overflow
 const (
-	CodeDefault     = -1
+	CodeDefault     = 1
 	CodeParamError  = 400
 	CodeNoLogin     = 401
 	CodeNoPower     = 403

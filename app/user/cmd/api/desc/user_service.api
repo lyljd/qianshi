@@ -1,0 +1,39 @@
+syntax = "v1"
+
+import "user_type.api"
+
+@server(
+	prefix: /api/v1/user/login
+	group: login
+)
+service User {
+	@handler EmailLogin
+	post /email (EmailLoginReq) returns (LoginResp)
+
+	@handler PassLogin
+	post /pass (PassLoginReq) returns (LoginResp)
+}
+
+@server(
+	prefix: /api/v1/user/me
+	group: me
+)
+service User {
+	@handler MeExp
+	get /exp returns (MeExpResp)
+
+	@handler MeInfo
+	get /info returns (MeInfoResp)
+
+	@handler MeSecurity
+	get /security returns (MeSecurityResp)
+
+	@handler MeCoin
+	get /coin returns (MeCoinResp)
+
+	@handler MePassVerify
+	post /pass/verify (MePassVerifyReq)
+
+	@handler MePassChange
+	post /pass/change (MePassChangeReq) returns (MePassChangeResp)
+}

@@ -1,0 +1,9 @@
+syntax = "v1"
+
+type TokenRefreshReq {
+    RefreshToken string `json:"refresh_token"`
+}
+
+type TokenRefreshResp {
+    Token string `json:"token"`
+}

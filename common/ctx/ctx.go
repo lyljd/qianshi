@@ -2,13 +2,13 @@ package ctx
 
 import (
 	"context"
-	"encoding/json"
+	"strconv"
 )
 
-func GetUid(ctx context.Context) int64 {
-	var uid int64
-	if jsonUid, ok := ctx.Value("uid").(json.Number); ok {
-		uid, _ = jsonUid.Int64()
+func GetUid(ctx context.Context) uint {
+	var uid uint64
+	if uidStr, ok := ctx.Value("uid").(string); ok {
+		uid, _ = strconv.ParseUint(uidStr, 10, 64)
 	}
-	return uid
+	return uint(uid)
 }

@@ -15,7 +15,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var configFile = flag.String("f", "etc/user.yaml", "the config file")
+var configFile = flag.String("f", "etc/vcode.yaml", "the config file")
 
 func main() {
 	if err := godotenv.Load(); err != nil {

@@ -13,7 +13,7 @@ import (
 
 func LoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.LoginReq
+		var req types.EmailReq
 		if err := httpx.Parse(r, &req); err != nil {
 			result.Fail(r.Context(), w, svcCtx.Config.Mode, errorx.New(errorx.CodeParamError, err))
 			return

@@ -1,0 +1,17 @@
+Name: authentication-rpc
+ListenOn: 0.0.0.0:9006
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: authentication-rpc
+Log:
+  Stat: false
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user-rpc
+  NonBlock: true
+Telemetry:
+  Name: authentication-rpc
+  Endpoint: http://127.0.0.1:14268/api/traces

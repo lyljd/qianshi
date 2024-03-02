@@ -1,10 +1,10 @@
 syntax = "v1"
 
-type LoginReq {
+type EmailReq {
     Email string `json:"email"`
     CaptchaId string `json:"captcha_id"`
 }
 
-type LoginResp {
+type EmailResp {
     Ttl int `json:"ttl"`
 }

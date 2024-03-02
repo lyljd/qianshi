@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = ".";
+
+message EmailLoginReq {
+  string email = 1;
+  string code = 2;
+  string ip = 3;
+}
+message PassLoginReq {
+  string email = 1;
+  string pass = 2;
+  string ip = 3;
+}
+message LoginResp {
+  string token = 1;
+  string refreshToken = 2;
+  string nickname = 3;
+  string avatarUrl = 4;
+  int64 newMessageNum = 5;
+  int64 newDynamicNum = 6;
+}
+
+message QueryReq {
+  uint64 uid = 1;
+}
+message UserQueryResp {
+  uint64 id = 1;
+  int64 createdAt = 2;
+  int64 updatedAt = 3;
+  int64 deletedAt = 4;
+  string email = 5;
+  string password = 6;
+  string nickname = 7;
+  string avatarUrl = 8;
+  string signature = 9;
+  int64 vipExpire = 10;
+  string ip = 11;
+  string ipLocation = 12;
+  int64 exp = 13;
+  int64 level = 14;
+  int64 coin = 15;
+  int64 followNum = 16;
+  string refreshToken = 17;
+}
+message UserHomeQueryResp {
+  uint64 id = 1;
+  int64 createdAt = 2;
+  int64 updatedAt = 3;
+  int64 deletedAt = 4;
+  string gender = 5;
+  string birthday = 6;
+  repeated string tags = 7;
+  int64 topImgNo = 9;
+  string title = 10;
+  string notice = 11;
+
+  int64 postNum = 12;
+  int64 collectionNum = 13;
+  int64 favlistNum = 14;
+  int64 fanNum = 15;
+  int64 likeNum = 16;
+  int64 playNum = 17;
+  int64 readNum = 18;
+}
+message UserInteractionQueryResp {
+  uint64 id = 1;
+  int64 createdAt = 2;
+  int64 updatedAt = 3;
+  int64 deletedAt = 4;
+
+  int64 playNum = 5;
+  int64 playNumIncr = 6;
+  int64 videoCommentNum = 7;
+  int64 videoCommentNumIncr = 8;
+  int64 danmuNum = 9;
+  int64 danmuNumIncr = 10;
+  int64 videoLikeNum = 11;
+  int64 videoLikeNumIncr = 12;
+  int64 coinNum = 13;
+  int64 coinNumIncr = 14;
+  int64 videoStarNum = 15;
+  int64 videoStarNumIncr = 16;
+  int64 videoShareNum = 17;
+  int64 videoShareNumIncr = 18;
+  int64 readNum = 19;
+  int64 readNumIncr = 20;
+  int64 readCommentNum = 21;
+  int64 readCommentNumIncr = 22;
+  int64 readLikeNum = 23;
+  int64 readLikeNumIncr = 24;
+  int64 readStarNum = 25;
+  int64 readStarNumIncr = 26;
+  int64 readShareNum = 27;
+  int64 readShareNumIncr = 28;
+}
+
+message PassChangeVerifyReq {
+  uint64 uid = 1;
+  string code = 2;
+}
+message PassChangeVerifyResp {
+}
+message PassChangeReq {
+  uint64 uid = 1;
+  string pass = 2;
+}
+message PassChangeResp {
+  string token = 1;
+  string refreshToken = 2;
+}
+
+service User {
+  rpc EmailLogin(EmailLoginReq) returns (LoginResp);
+  rpc PassLogin(PassLoginReq) returns (LoginResp);
+  rpc UserQuery(QueryReq) returns (UserQueryResp);
+  rpc UserHomeQuery(QueryReq) returns (UserHomeQueryResp);
+  rpc UserInteractionQuery(QueryReq) returns (UserInteractionQueryResp);
+
+  rpc PassChangeVerify(PassChangeVerifyReq) returns (PassChangeVerifyResp);
+  rpc PassChange(PassChangeReq) returns (PassChangeResp);
+}

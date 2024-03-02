@@ -1,0 +1,15 @@
+Name: authentication-api
+Host: 0.0.0.0
+Port: 9005
+Mode: dev
+Log:
+  Stat: false
+AuthenticationRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: authentication-rpc
+  NonBlock: true
+Telemetry:
+  Name: authentication-api
+  Endpoint: http://127.0.0.1:14268/api/traces

@@ -18,8 +18,21 @@ type errorDesc struct {
 }
 
 func New(code int, err error, msgs ...string) error {
+	var errStr string
+	if se, ok := status.FromError(err); ok {
+		errStr = se.Message()
+		for i, msg := range msgs {
+			if msg == err.Error() {
+				msgs[i] = errStr
+				break
+			}
+		}
+	} else {
+		errStr = err.Error()
+	}
+
 	ed := errorDesc{
-		Err: err.Error(),
+		Err: errStr,
 		Msg: strings.Join(msgs, "；"),
 	}
 	if ed.Msg == "" {

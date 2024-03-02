@@ -6,7 +6,10 @@ import "vcode_type.api"
 	prefix: /api/v1/vcode/email
 	group: email
 )
-service User {
+service Vcode {
 	@handler Login
-	post /login (LoginReq) returns (LoginResp)
+	post /login (EmailReq) returns (EmailResp)
+
+	@handler ChangePassword
+	post /change-password (EmailReq) returns (EmailResp)
 }
