@@ -58,7 +58,7 @@ func StartCollection(serviceName string, config *Config) {
 }
 
 func write(m map[string]any) {
-	jm, _ := json.Marshal(&m)
+	jm, _ := json.Marshal(m)
 	jms := string(jm)
 	if _, err := f.WriteString(jms + "\n"); err != nil {
 		fmt.Printf("log \"%s\" write fail! err: %s\n", jms, err)

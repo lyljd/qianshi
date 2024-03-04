@@ -2,9 +2,7 @@ package logic
 
 import (
 	"context"
-	"errors"
 	"github.com/jinzhu/copier"
-	"gorm.io/gorm"
 	"qianshi/app/user/model/userInteractionModel"
 
 	"qianshi/app/user/cmd/rpc/internal/svc"
@@ -28,22 +26,22 @@ func NewUserInteractionQueryLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *UserInteractionQueryLogic) UserInteractionQuery(in *__.QueryReq) (*__.UserInteractionQueryResp, error) {
-	var u userInteractionModel.UserInteraction
-	if l.svcCtx.DB.Take(&u, in.Uid).Error == gorm.ErrRecordNotFound {
-		return nil, errors.New("记录不存在")
+	ui, err := userInteractionModel.QueryById(l.svcCtx.Redis, l.svcCtx.DB, in.Uid)
+	if err != nil {
+		return nil, err
 	}
 
 	var resp __.UserInteractionQueryResp
-	if err := copier.Copy(&resp, &u); err != nil {
+	if err := copier.Copy(&resp, &ui); err != nil {
 		return nil, err
 	}
-	resp.Id = uint64(u.ID)
-	resp.CreatedAt = u.CreatedAt.Unix()
-	resp.UpdatedAt = u.UpdatedAt.Unix()
-	if !u.DeletedAt.Valid {
+	resp.Id = uint64(ui.ID)
+	resp.CreatedAt = ui.CreatedAt.Unix()
+	resp.UpdatedAt = ui.UpdatedAt.Unix()
+	if !ui.DeletedAt.Valid {
 		resp.DeletedAt = 0
 	} else {
-		resp.DeletedAt = u.DeletedAt.Time.Unix()
+		resp.DeletedAt = ui.DeletedAt.Time.Unix()
 	}
 
 	return &resp, nil

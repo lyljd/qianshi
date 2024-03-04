@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"gorm.io/gorm"
 	"qianshi/app/user/cmd/rpc/internal/svc"
 	"qianshi/app/user/cmd/rpc/pb"
 	"qianshi/app/user/model/userModel"
@@ -32,10 +31,17 @@ func (l *PassLoginLogic) PassLogin(in *__.PassLoginReq) (*__.LoginResp, error) {
 		return nil, err
 	}
 
-	var u userModel.User
-	if l.svcCtx.DB.Where("email = ? AND password = ?", in.Email, pass).Take(&u).Error == gorm.ErrRecordNotFound {
+	u, err := userModel.QueryByEmail(l.svcCtx.Redis, l.svcCtx.DB, in.Email)
+	if err != nil {
+		if err == errorxs.ErrRecordNotFound {
+			return nil, errorxs.ErrEmailPassWrong
+		}
+		return nil, err
+	}
+
+	if u.Password != pass {
 		return nil, errorxs.ErrEmailPassWrong
 	}
 
-	return loginCommon(l.ctx, l.svcCtx, &u, in.Ip)
+	return loginCommon(l.ctx, l.svcCtx, u, in.Ip)
 }

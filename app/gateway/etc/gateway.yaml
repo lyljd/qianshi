@@ -1,0 +1,16 @@
+Name: gateway
+Host: 0.0.0.0
+Port: 8000
+Mode: dev
+AuthenticationRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: authentication-rpc
+  NonBlock: true
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user-rpc
+  NonBlock: true

@@ -2,8 +2,6 @@ package logic
 
 import (
 	"context"
-	"errors"
-	"gorm.io/gorm"
 	__2 "qianshi/app/authentication/cmd/rpc/pb"
 	"qianshi/app/user/model/userModel"
 	"qianshi/common/errorxs"
@@ -33,11 +31,9 @@ func NewPassChangeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PassCh
 }
 
 func (l *PassChangeLogic) PassChange(in *__.PassChangeReq) (*__.PassChangeResp, error) {
-	u := userModel.User{
-		Model: gorm.Model{ID: uint(in.Uid)},
-	}
-	if l.svcCtx.DB.Take(&u).Error == gorm.ErrRecordNotFound {
-		return nil, errors.New("记录不存在")
+	u, err := userModel.QueryById(l.svcCtx.Redis, l.svcCtx.DB, in.Uid)
+	if err != nil {
+		return nil, err
 	}
 
 	verifyKey := key.GetUserChangePasswordVerify(u.Email)
@@ -76,10 +72,10 @@ func (l *PassChangeLogic) PassChange(in *__.PassChangeReq) (*__.PassChangeResp, 
 	}
 
 	// 更新密码和refreshToken
-	if err := l.svcCtx.DB.Model(u).Updates(userModel.User{
+	if err := userModel.UpdateById(l.svcCtx.Redis, l.svcCtx.DB, u, &userModel.User{
 		Password:     pass,
 		RefreshToken: grtResp.Token,
-	}).Error; err != nil {
+	}); err != nil {
 		return nil, err
 	}
 

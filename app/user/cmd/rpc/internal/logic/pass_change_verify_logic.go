@@ -2,8 +2,7 @@ package logic
 
 import (
 	"context"
-	"errors"
-	"gorm.io/gorm"
+	"github.com/go-redis/redis/v8"
 	"qianshi/app/user/model/userModel"
 	"qianshi/common/errorxs"
 	"qianshi/common/key"
@@ -30,14 +29,17 @@ func NewPassChangeVerifyLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *PassChangeVerifyLogic) PassChangeVerify(in *__.PassChangeVerifyReq) (*__.PassChangeVerifyResp, error) {
-	var u userModel.User
-	if l.svcCtx.DB.Select("email").Take(&u, in.Uid).Error == gorm.ErrRecordNotFound {
-		return nil, errors.New("记录不存在")
+	u, err := userModel.QueryById(l.svcCtx.Redis, l.svcCtx.DB, in.Uid)
+	if err != nil {
+		return nil, err
 	}
 
 	vcodeVerifyKey := key.GetVcodeChangePasswordVerify(u.Email)
 	vcode, err := l.svcCtx.Redis.Get(l.ctx, vcodeVerifyKey).Result()
 	if err != nil {
+		if err == redis.Nil {
+			return nil, errorxs.ErrKeyNotFound
+		}
 		return nil, err
 	}
 	if vcode != in.Code {

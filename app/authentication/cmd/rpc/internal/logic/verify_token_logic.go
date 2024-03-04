@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/go-redis/redis/v8"
 	"qianshi/common/key"
 	"qianshi/common/tool"
 	"strconv"
@@ -36,19 +37,21 @@ func (l *VerifyTokenLogic) VerifyToken(in *__.VerifyTokenReq) (*__.VerifyTokenRe
 		return nil, err
 	}
 
-	expStr, err := l.svcCtx.Redis.Get(l.ctx, key.GetTokenExp(uid)).Result()
-	if err != nil {
+	teKey := key.GetTokenExp(uid)
+	expStr, err := l.svcCtx.Redis.Get(l.ctx, teKey).Result()
+	if err != nil && err != redis.Nil {
 		return nil, err
 	}
 
-	exp, err := strconv.ParseInt(expStr, 10, 64)
-	if err != nil {
-		return nil, err
-	}
+	if err != redis.Nil {
+		exp, err := strconv.ParseInt(expStr, 10, 64)
+		if err != nil {
+			return nil, err
+		}
 
-	// key不存在时exp为0，没有问题
-	if iat < exp {
-		return nil, errors.New("token has expired")
+		if iat < exp {
+			return nil, errors.New("token has expired")
+		}
 	}
 
 	return &__.VerifyTokenResp{Uid: int64(uid)}, nil

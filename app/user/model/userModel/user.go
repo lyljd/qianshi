@@ -11,6 +11,7 @@ type User struct {
 	Nickname     string
 	AvatarUrl    string
 	Signature    string
+	Power        int
 	VipExpire    int
 	Ip           string
 	IpLocation   string

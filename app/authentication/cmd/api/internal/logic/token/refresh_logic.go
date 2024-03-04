@@ -34,9 +34,9 @@ func (l *RefreshLogic) Refresh(req *types.TokenRefreshReq) (resp *types.TokenRef
 		return nil, errorx.New(errorx.CodeDefault, err)
 	}
 
-	generateResp, err := l.svcCtx.AuthenticationRpc.GenerateRefreshToken(
+	generateResp, err := l.svcCtx.AuthenticationRpc.GenerateToken(
 		l.ctx,
-		&__.GenerateRefreshTokenReq{Uid: verifyResp.Uid},
+		&__.GenerateTokenReq{Uid: verifyResp.Uid},
 	)
 	if err != nil {
 		return nil, errorx.New(errorx.CodeDefault, err)

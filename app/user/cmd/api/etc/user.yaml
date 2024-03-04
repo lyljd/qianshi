@@ -1,4 +1,4 @@
-Name: User-api
+Name: user-api
 Host: 0.0.0.0
 Port: 9007
 Mode: dev
@@ -11,5 +11,5 @@ UserRpcConf:
     Key: user-rpc
   NonBlock: true
 Telemetry:
-  Name: User-api
+  Name: user-api
   Endpoint: http://127.0.0.1:14268/api/traces

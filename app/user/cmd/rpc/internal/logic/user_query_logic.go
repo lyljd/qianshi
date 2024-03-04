@@ -2,9 +2,7 @@ package logic
 
 import (
 	"context"
-	"errors"
 	"github.com/jinzhu/copier"
-	"gorm.io/gorm"
 	"qianshi/app/user/model/userModel"
 
 	"qianshi/app/user/cmd/rpc/internal/svc"
@@ -28,9 +26,9 @@ func NewUserQueryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserQue
 }
 
 func (l *UserQueryLogic) UserQuery(in *__.QueryReq) (*__.UserQueryResp, error) {
-	var u userModel.User
-	if l.svcCtx.DB.Take(&u, in.Uid).Error == gorm.ErrRecordNotFound {
-		return nil, errors.New("记录不存在")
+	u, err := userModel.QueryById(l.svcCtx.Redis, l.svcCtx.DB, in.Uid)
+	if err != nil {
+		return nil, err
 	}
 
 	var resp __.UserQueryResp

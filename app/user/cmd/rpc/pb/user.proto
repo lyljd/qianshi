@@ -36,14 +36,15 @@ message UserQueryResp {
   string nickname = 7;
   string avatarUrl = 8;
   string signature = 9;
-  int64 vipExpire = 10;
-  string ip = 11;
-  string ipLocation = 12;
-  int64 exp = 13;
-  int64 level = 14;
-  int64 coin = 15;
-  int64 followNum = 16;
-  string refreshToken = 17;
+  int64 power = 10;
+  int64 vipExpire = 11;
+  string ip = 12;
+  string ipLocation = 13;
+  int64 exp = 14;
+  int64 level = 15;
+  int64 coin = 16;
+  int64 followNum = 17;
+  string refreshToken = 18;
 }
 message UserHomeQueryResp {
   uint64 id = 1;

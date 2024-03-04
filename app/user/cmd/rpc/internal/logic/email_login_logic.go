@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 	"io"
 	"math/rand"
@@ -13,7 +14,6 @@ import (
 	"qianshi/app/user/model/userModel"
 	"qianshi/common/errorxs"
 	"qianshi/common/key"
-	"qianshi/common/result/errorx"
 	"qianshi/common/tool"
 	"strings"
 
@@ -41,27 +41,34 @@ func (l *EmailLoginLogic) EmailLogin(in *__.EmailLoginReq) (*__.LoginResp, error
 	loginVerifyKey := key.GetVcodeLoginVerify(in.Email)
 	vcode, err := l.svcCtx.Redis.Get(l.ctx, loginVerifyKey).Result()
 	if err != nil {
+		if err == redis.Nil {
+			return nil, errorxs.ErrKeyNotFound
+		}
 		return nil, err
 	}
 	if vcode != in.Code {
 		return nil, errorxs.ErrVcodeWrong
 	}
 
-	if err := l.svcCtx.Redis.Del(l.ctx, loginVerifyKey).Err(); err != nil {
-		return nil, errorx.New(errorx.CodeParamError, err)
+	if err = l.svcCtx.Redis.Del(l.ctx, loginVerifyKey).Err(); err != nil {
+		return nil, err
 	}
 
 	// 新用户自动注册账号
-	var u userModel.User
-	if l.svcCtx.DB.Where("email = ?", in.Email).Take(&u).Error == gorm.ErrRecordNotFound {
+	u, err := userModel.QueryByEmail(l.svcCtx.Redis, l.svcCtx.DB, in.Email)
+	if err != nil {
+		if err != errorxs.ErrRecordNotFound {
+			return nil, err
+		}
+
 		if nu, err := register(l.svcCtx.DB, in.Email); err != nil {
 			return nil, err
 		} else {
-			u = *nu
+			u = nu
 		}
 	}
 
-	resp, err := loginCommon(l.ctx, l.svcCtx, &u, in.Ip)
+	resp, err := loginCommon(l.ctx, l.svcCtx, u, in.Ip)
 	if err != nil {
 		return nil, err
 	}
@@ -93,11 +100,11 @@ func loginCommon(ctx context.Context, svcCtx *svc.ServiceContext, u *userModel.U
 	}
 
 	// 更新refreshToken，ip和ipLocation
-	if err := svcCtx.DB.Model(u).Updates(userModel.User{
+	if err := userModel.UpdateById(svcCtx.Redis, svcCtx.DB, u, &userModel.User{
 		Ip:           ip,
 		IpLocation:   queryIpLocation(ip),
 		RefreshToken: rft,
-	}).Error; err != nil {
+	}); err != nil {
 		return nil, err
 	}
 
