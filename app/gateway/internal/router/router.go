@@ -28,8 +28,17 @@ var Routers = []Router{
 					{Path: "info"},
 					{Path: "security"},
 					{Path: "coin"},
+					{Path: "avatar"},
+					{Path: "power"},
 					{
 						Path: "pass",
+						Children: []Router{
+							{Path: "verify"},
+							{Path: "change"},
+						},
+					},
+					{
+						Path: "email",
 						Children: []Router{
 							{Path: "verify"},
 							{Path: "change"},
@@ -60,7 +69,14 @@ var Routers = []Router{
 				Path: "email",
 				Children: []Router{
 					{Path: "login"},
-					{Path: "change-password"},
+					{
+						Path:      "change-password",
+						NeedLogin: true,
+					},
+					{
+						Path:      "change-email",
+						NeedLogin: true,
+					},
 				},
 			},
 		},

@@ -13,8 +13,14 @@ import (
 )
 
 type (
+	EmailChangeReq           = __.EmailChangeReq
+	EmailChangeResp          = __.EmailChangeResp
+	EmailChangeVerifyReq     = __.EmailChangeVerifyReq
+	EmailChangeVerifyResp    = __.EmailChangeVerifyResp
 	EmailLoginReq            = __.EmailLoginReq
 	LoginResp                = __.LoginResp
+	MeInfoUpdateReq          = __.MeInfoUpdateReq
+	MeInfoUpdateResp         = __.MeInfoUpdateResp
 	PassChangeReq            = __.PassChangeReq
 	PassChangeResp           = __.PassChangeResp
 	PassChangeVerifyReq      = __.PassChangeVerifyReq
@@ -31,8 +37,11 @@ type (
 		UserQuery(ctx context.Context, in *QueryReq, opts ...grpc.CallOption) (*UserQueryResp, error)
 		UserHomeQuery(ctx context.Context, in *QueryReq, opts ...grpc.CallOption) (*UserHomeQueryResp, error)
 		UserInteractionQuery(ctx context.Context, in *QueryReq, opts ...grpc.CallOption) (*UserInteractionQueryResp, error)
+		MeInfoUpdate(ctx context.Context, in *MeInfoUpdateReq, opts ...grpc.CallOption) (*MeInfoUpdateResp, error)
 		PassChangeVerify(ctx context.Context, in *PassChangeVerifyReq, opts ...grpc.CallOption) (*PassChangeVerifyResp, error)
 		PassChange(ctx context.Context, in *PassChangeReq, opts ...grpc.CallOption) (*PassChangeResp, error)
+		EmailChangeVerify(ctx context.Context, in *EmailChangeVerifyReq, opts ...grpc.CallOption) (*EmailChangeVerifyResp, error)
+		EmailChange(ctx context.Context, in *EmailChangeReq, opts ...grpc.CallOption) (*EmailChangeResp, error)
 	}
 
 	defaultUser struct {
@@ -71,6 +80,11 @@ func (m *defaultUser) UserInteractionQuery(ctx context.Context, in *QueryReq, op
 	return client.UserInteractionQuery(ctx, in, opts...)
 }
 
+func (m *defaultUser) MeInfoUpdate(ctx context.Context, in *MeInfoUpdateReq, opts ...grpc.CallOption) (*MeInfoUpdateResp, error) {
+	client := __.NewUserClient(m.cli.Conn())
+	return client.MeInfoUpdate(ctx, in, opts...)
+}
+
 func (m *defaultUser) PassChangeVerify(ctx context.Context, in *PassChangeVerifyReq, opts ...grpc.CallOption) (*PassChangeVerifyResp, error) {
 	client := __.NewUserClient(m.cli.Conn())
 	return client.PassChangeVerify(ctx, in, opts...)
@@ -79,4 +93,14 @@ func (m *defaultUser) PassChangeVerify(ctx context.Context, in *PassChangeVerify
 func (m *defaultUser) PassChange(ctx context.Context, in *PassChangeReq, opts ...grpc.CallOption) (*PassChangeResp, error) {
 	client := __.NewUserClient(m.cli.Conn())
 	return client.PassChange(ctx, in, opts...)
+}
+
+func (m *defaultUser) EmailChangeVerify(ctx context.Context, in *EmailChangeVerifyReq, opts ...grpc.CallOption) (*EmailChangeVerifyResp, error) {
+	client := __.NewUserClient(m.cli.Conn())
+	return client.EmailChangeVerify(ctx, in, opts...)
+}
+
+func (m *defaultUser) EmailChange(ctx context.Context, in *EmailChangeReq, opts ...grpc.CallOption) (*EmailChangeResp, error) {
+	client := __.NewUserClient(m.cli.Conn())
+	return client.EmailChange(ctx, in, opts...)
 }

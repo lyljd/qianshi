@@ -109,8 +109,8 @@ func loginCommon(ctx context.Context, svcCtx *svc.ServiceContext, u *userModel.U
 	}
 
 	// TODO 查消息数和动态数
-	newMessageNum := 0
-	newDynamicNum := 0
+	newMessageNum := 233
+	newDynamicNum := 7
 
 	return &__.LoginResp{
 		Token:         gtResp.Token,
@@ -171,7 +171,6 @@ func register(db *gorm.DB, email string) (*userModel.User, error) {
 			return err
 		}
 
-		tx.Commit()
 		return nil
 	}); err != nil {
 		return nil, err

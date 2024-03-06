@@ -41,6 +41,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: me.MeInfoHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodPut,
+				Path:    "/info",
+				Handler: me.MeInfoUpdateHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodGet,
 				Path:    "/security",
 				Handler: me.MeSecurityHandler(serverCtx),
@@ -59,6 +64,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/pass/change",
 				Handler: me.MePassChangeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/avatar",
+				Handler: me.MeAvatarHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/power",
+				Handler: me.MePowerHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/email/verify",
+				Handler: me.MeEmailVerifyHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/email/change",
+				Handler: me.MeEmailChangeHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1/user/me"),

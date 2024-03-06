@@ -30,7 +30,15 @@ type MeInfoResp {
     Signature string `json:"signature"`
     Gender string `json:"gender"`
     Birthday string `json:"birthday"`
-    Tags []string `json:"tags,omitempty"`
+    Tags []string `json:"tags"`
+}
+
+type MeInfoUpdateReq {
+    Nickname string `json:"nickname"`
+    Signature string `json:"signature"`
+    Gender string `json:"gender"`
+    Birthday string `json:"birthday"`
+    Tags []string `json:"tags"`
 }
 
 type MeSecurityResp {
@@ -46,6 +54,10 @@ type MePassVerifyReq {
     Code string `json:"code"`
 }
 
+type MePassVerifyResp {
+    Ttl int `json:"ttl"`
+}
+
 type MePassChangeReq {
     Pass string `json:"pass"`
 }
@@ -53,5 +65,26 @@ type MePassChangeReq {
 type MePassChangeResp {
     Token string `json:"token"`
     RefreshToken string `json:"refreshToken"`
+}
+
+type MeAvatarResp {
+    AvatarUrl string `json:"avatarUrl"`
+}
+
+type MePowerResp {
+    Power int  `json:"power"`
+}
+
+type MeEmailVerifyReq {
+    Email string `json:"email"`
+    Code string `json:"code"`
+}
+
+type MeEmailVerifyResp {
+    Ttl int `json:"ttl"`
+}
+
+type MeEmailChangeReq {
+    Email string `json:"email"`
 }
 

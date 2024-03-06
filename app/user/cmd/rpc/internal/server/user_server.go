@@ -47,6 +47,11 @@ func (s *UserServer) UserInteractionQuery(ctx context.Context, in *__.QueryReq) 
 	return l.UserInteractionQuery(in)
 }
 
+func (s *UserServer) MeInfoUpdate(ctx context.Context, in *__.MeInfoUpdateReq) (*__.MeInfoUpdateResp, error) {
+	l := logic.NewMeInfoUpdateLogic(ctx, s.svcCtx)
+	return l.MeInfoUpdate(in)
+}
+
 func (s *UserServer) PassChangeVerify(ctx context.Context, in *__.PassChangeVerifyReq) (*__.PassChangeVerifyResp, error) {
 	l := logic.NewPassChangeVerifyLogic(ctx, s.svcCtx)
 	return l.PassChangeVerify(in)
@@ -55,4 +60,14 @@ func (s *UserServer) PassChangeVerify(ctx context.Context, in *__.PassChangeVeri
 func (s *UserServer) PassChange(ctx context.Context, in *__.PassChangeReq) (*__.PassChangeResp, error) {
 	l := logic.NewPassChangeLogic(ctx, s.svcCtx)
 	return l.PassChange(in)
+}
+
+func (s *UserServer) EmailChangeVerify(ctx context.Context, in *__.EmailChangeVerifyReq) (*__.EmailChangeVerifyResp, error) {
+	l := logic.NewEmailChangeVerifyLogic(ctx, s.svcCtx)
+	return l.EmailChangeVerify(in)
+}
+
+func (s *UserServer) EmailChange(ctx context.Context, in *__.EmailChangeReq) (*__.EmailChangeResp, error) {
+	l := logic.NewEmailChangeLogic(ctx, s.svcCtx)
+	return l.EmailChange(in)
 }

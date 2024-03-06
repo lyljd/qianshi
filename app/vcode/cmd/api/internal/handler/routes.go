@@ -23,6 +23,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/change-password",
 				Handler: email.ChangePasswordHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/change-email",
+				Handler: email.ChangeEmailHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/api/v1/vcode/email"),
 	)

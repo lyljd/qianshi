@@ -102,3 +102,17 @@ func QueryByEmail(rc *redis.Client, db *gorm.DB, email string) (*User, error) {
 
 	return &obj, nil
 }
+
+func QueryByNickname(db *gorm.DB, nickname string) (*User, error) {
+	// 查数据库（该key不是查询的高频key，所以不写入缓存）
+	var obj User
+
+	if err := db.Where("nickname = ?", nickname).Take(&obj).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errorxs.ErrRecordNotFound
+		}
+		return nil, err
+	}
+
+	return &obj, nil
+}

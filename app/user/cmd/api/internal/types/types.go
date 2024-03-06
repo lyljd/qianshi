@@ -31,7 +31,15 @@ type MeInfoResp struct {
 	Signature string   `json:"signature"`
 	Gender    string   `json:"gender"`
 	Birthday  string   `json:"birthday"`
-	Tags      []string `json:"tags,omitempty"`
+	Tags      []string `json:"tags"`
+}
+
+type MeInfoUpdateReq struct {
+	Nickname  string   `json:"nickname"`
+	Signature string   `json:"signature"`
+	Gender    string   `json:"gender"`
+	Birthday  string   `json:"birthday"`
+	Tags      []string `json:"tags"`
 }
 
 type MeSecurityResp struct {
@@ -47,6 +55,10 @@ type MePassVerifyReq struct {
 	Code string `json:"code"`
 }
 
+type MePassVerifyResp struct {
+	Ttl int `json:"ttl"`
+}
+
 type MePassChangeReq struct {
 	Pass string `json:"pass"`
 }
@@ -54,4 +66,25 @@ type MePassChangeReq struct {
 type MePassChangeResp struct {
 	Token        string `json:"token"`
 	RefreshToken string `json:"refreshToken"`
+}
+
+type MeAvatarResp struct {
+	AvatarUrl string `json:"avatarUrl"`
+}
+
+type MePowerResp struct {
+	Power int `json:"power"`
+}
+
+type MeEmailVerifyReq struct {
+	Email string `json:"email"`
+	Code  string `json:"code"`
+}
+
+type MeEmailVerifyResp struct {
+	Ttl int `json:"ttl"`
+}
+
+type MeEmailChangeReq struct {
+	Email string `json:"email"`
 }

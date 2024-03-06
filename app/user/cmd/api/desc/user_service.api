@@ -25,6 +25,9 @@ service User {
 	@handler MeInfo
 	get /info returns (MeInfoResp)
 
+	@handler MeInfoUpdate
+	put /info (MeInfoUpdateReq)
+
 	@handler MeSecurity
 	get /security returns (MeSecurityResp)
 
@@ -32,8 +35,20 @@ service User {
 	get /coin returns (MeCoinResp)
 
 	@handler MePassVerify
-	post /pass/verify (MePassVerifyReq)
+	post /pass/verify (MePassVerifyReq) returns (MePassVerifyResp)
 
 	@handler MePassChange
 	post /pass/change (MePassChangeReq) returns (MePassChangeResp)
+
+	@handler MeAvatar
+	get /avatar returns (MeAvatarResp)
+
+	@handler MePower
+	get /power returns (MePowerResp)
+
+	@handler MeEmailVerify
+	post /email/verify (MeEmailVerifyReq) returns (MeEmailVerifyResp)
+
+	@handler MeEmailChange
+	post /email/change (MeEmailChangeReq)
 }

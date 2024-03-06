@@ -29,3 +29,19 @@ func TestSha256(t *testing.T) {
 	}
 	fmt.Println(res)
 }
+
+func TestEncEmail(t *testing.T) {
+	ems := []string{
+		"a@qianshi.fun",
+		"ab@qianshi.fun",
+		"abc@qianshi.fun",
+		"abcd@qianshi.fun",
+		"abcde@qianshi.fun",
+		"abcdef@qianshi.fun",
+		"abcdefg@qianshi.fun",
+	}
+
+	for _, e := range ems {
+		fmt.Println(EncEmail(e))
+	}
+}

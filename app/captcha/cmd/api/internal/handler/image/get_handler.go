@@ -1,12 +1,13 @@
 package image
 
 import (
-	"github.com/dchest/captcha"
+	"context"
 	"net/http"
 	"qianshi/common/result"
 	"qianshi/common/result/errorx"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"qianshi/app/captcha/cmd/api/internal/logic/image"
 	"qianshi/app/captcha/cmd/api/internal/svc"
 	"qianshi/app/captcha/cmd/api/internal/types"
 )
@@ -19,8 +20,12 @@ func GetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		if err := captcha.WriteImage(w, req.Id, 100, 30); err != nil {
-			result.Fail(r.Context(), w, svcCtx.Config.Mode, errorx.New(errorx.CodeServerError, err))
+		ctx := context.WithValue(r.Context(), "uid", r.Header.Get("UID"))
+		l := image.NewGetLogic(ctx, svcCtx)
+		if resp, err := l.Get(&req); err != nil {
+			result.Fail(r.Context(), w, svcCtx.Config.Mode, err)
+		} else {
+			result.Succ(r.Context(), w, resp)
 		}
 	}
 }

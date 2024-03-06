@@ -5,6 +5,7 @@ import (
 	__ "qianshi/app/user/cmd/rpc/pb"
 	"qianshi/common/ctx"
 	"qianshi/common/result/errorx"
+	"qianshi/common/tool"
 
 	"qianshi/app/user/cmd/api/internal/svc"
 	"qianshi/app/user/cmd/api/internal/types"
@@ -34,7 +35,7 @@ func (l *MeSecurityLogic) MeSecurity() (resp *types.MeSecurityResp, err error) {
 
 	resp = &types.MeSecurityResp{
 		IsSetPassword: query.Password != "",
-		Email:         query.Email,
+		Email:         tool.EncEmail(query.Email),
 	}
 
 	return

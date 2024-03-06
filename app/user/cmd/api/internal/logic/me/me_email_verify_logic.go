@@ -13,24 +13,25 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type MePassVerifyLogic struct {
+type MeEmailVerifyLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewMePassVerifyLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MePassVerifyLogic {
-	return &MePassVerifyLogic{
+func NewMeEmailVerifyLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MeEmailVerifyLogic {
+	return &MeEmailVerifyLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *MePassVerifyLogic) MePassVerify(req *types.MePassVerifyReq) (resp *types.MePassVerifyResp, err error) {
-	pcvResp, err := l.svcCtx.UserRpc.PassChangeVerify(l.ctx, &__.PassChangeVerifyReq{
-		Uid:  uint64(int64(ctx.GetUid(l.ctx))),
-		Code: req.Code,
+func (l *MeEmailVerifyLogic) MeEmailVerify(req *types.MeEmailVerifyReq) (resp *types.MeEmailVerifyResp, err error) {
+	ecvResp, err := l.svcCtx.UserRpc.EmailChangeVerify(l.ctx, &__.EmailChangeVerifyReq{
+		Uid:   uint64(int64(ctx.GetUid(l.ctx))),
+		Email: req.Email,
+		Code:  req.Code,
 	})
 
 	if err != nil {
@@ -40,8 +41,11 @@ func (l *MePassVerifyLogic) MePassVerify(req *types.MePassVerifyReq) (resp *type
 		if errorxs.Is(err, errorxs.ErrKeyNotFound) {
 			return nil, errorx.New(errorx.CodeParamError, err, "请先获取验证码")
 		}
+		if errorxs.Is(err, errorxs.ErrWrongProcessSequence) {
+			return nil, errorx.New(errorx.CodeParamError, err, err.Error())
+		}
 		return nil, errorx.New(errorx.CodeDefault, err)
 	}
 
-	return &types.MePassVerifyResp{Ttl: int(pcvResp.Ttl)}, nil
+	return &types.MeEmailVerifyResp{Ttl: int(ecvResp.Ttl)}, nil
 }

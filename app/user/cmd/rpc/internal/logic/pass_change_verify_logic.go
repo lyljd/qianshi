@@ -50,10 +50,11 @@ func (l *PassChangeVerifyLogic) PassChangeVerify(in *__.PassChangeVerifyReq) (*_
 		return nil, err
 	}
 
+	const ttl = time.Minute * 5
 	userVerifyKey := key.GetUserChangePasswordVerify(u.Email)
-	if err := l.svcCtx.Redis.SetEX(l.ctx, userVerifyKey, "", time.Minute*5).Err(); err != nil {
+	if err := l.svcCtx.Redis.SetEX(l.ctx, userVerifyKey, "", ttl).Err(); err != nil {
 		return nil, err
 	}
 
-	return &__.PassChangeVerifyResp{}, nil
+	return &__.PassChangeVerifyResp{Ttl: int64(ttl.Seconds())}, nil
 }

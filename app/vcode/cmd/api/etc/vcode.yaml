@@ -5,6 +5,12 @@ Timeout: 6000
 Mode: dev
 Log:
   Stat: false
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user-rpc
+  NonBlock: true
 Telemetry:
   Name: vcode-api
   Endpoint: http://127.0.0.1:14268/api/traces

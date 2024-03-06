@@ -2,14 +2,17 @@ package svc
 
 import (
 	"github.com/go-redis/redis/v8"
+	"github.com/zeromicro/go-zero/zrpc"
+	"qianshi/app/user/cmd/rpc/user"
 	"qianshi/app/vcode/cmd/api/internal/config"
 	"qianshi/common/email"
 )
 
 type ServiceContext struct {
-	Config config.Config
-	Email  *email.Dialer
-	Redis  *redis.Client
+	Config  config.Config
+	Email   *email.Dialer
+	Redis   *redis.Client
+	UserRpc user.User
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -20,5 +23,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			Addr:     c.RedisAddr,
 			Password: c.RedisPassword,
 		}),
+		UserRpc: user.NewUser(zrpc.MustNewClient(c.UserRpcConf)),
 	}
 }

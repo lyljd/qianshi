@@ -2,13 +2,12 @@ package logic
 
 import (
 	"context"
+	"errors"
 	"github.com/jinzhu/copier"
-	"qianshi/app/user/model/userModel"
-
+	"github.com/zeromicro/go-zero/core/logx"
 	"qianshi/app/user/cmd/rpc/internal/svc"
 	"qianshi/app/user/cmd/rpc/pb"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"qianshi/app/user/model/userModel"
 )
 
 type UserQueryLogic struct {
@@ -26,13 +25,26 @@ func NewUserQueryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserQue
 }
 
 func (l *UserQueryLogic) UserQuery(in *__.QueryReq) (*__.UserQueryResp, error) {
-	u, err := userModel.QueryById(l.svcCtx.Redis, l.svcCtx.DB, in.Uid)
-	if err != nil {
-		return nil, err
+	// 传入了uid则根据id来查询，没传就看是否传了email，如果传入了email则根据email来查询，没传就报错
+	var u *userModel.User
+	var err error
+
+	if in.Uid != 0 {
+		u, err = userModel.QueryById(l.svcCtx.Redis, l.svcCtx.DB, in.Uid)
+		if err != nil {
+			return nil, err
+		}
+	} else if in.Email != "" {
+		u, err = userModel.QueryByEmail(l.svcCtx.Redis, l.svcCtx.DB, in.Email)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		return nil, errors.New("user查询关键字为空")
 	}
 
 	var resp __.UserQueryResp
-	if err := copier.Copy(&resp, &u); err != nil {
+	if err = copier.Copy(&resp, &u); err != nil {
 		return nil, err
 	}
 	resp.Id = uint64(u.ID)

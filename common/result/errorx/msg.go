@@ -2,6 +2,7 @@ package errorx
 
 var msg = map[int]string{
 	CodeDefault:     "服务器开小差了，请稍后再试",
+	CodeSuccess:     "请求成功",
 	CodeParamError:  "请求参数异常",
 	CodeNoLogin:     "请登录",
 	CodeNoPower:     "无权访问",

@@ -1,6 +1,15 @@
 syntax = "v1"
 
-type EmailReq {
+type LoginReq {
+    Email string `json:"email"`
+    CaptchaId string `json:"captcha_id"`
+}
+
+type ChangePasswordReq {
+    CaptchaId string `json:"captcha_id"`
+}
+
+type ChangeEmailReq {
     Email string `json:"email"`
     CaptchaId string `json:"captcha_id"`
 }

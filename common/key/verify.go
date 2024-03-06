@@ -15,3 +15,11 @@ func GetVcodeChangePasswordVerify(email string) string {
 func GetUserChangePasswordVerify(email string) string {
 	return "user:verify:changePassword:" + email
 }
+
+func GetVcodeChangeEmailVerify(email string) string {
+	return "vcode:verify:changeEmail:" + email
+}
+
+func GetUserChangeEmailVerify(email string) string {
+	return "user:verify:changeEmail:" + email
+}

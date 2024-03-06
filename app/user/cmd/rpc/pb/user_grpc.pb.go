@@ -24,8 +24,11 @@ const (
 	User_UserQuery_FullMethodName            = "/service.User/UserQuery"
 	User_UserHomeQuery_FullMethodName        = "/service.User/UserHomeQuery"
 	User_UserInteractionQuery_FullMethodName = "/service.User/UserInteractionQuery"
+	User_MeInfoUpdate_FullMethodName         = "/service.User/MeInfoUpdate"
 	User_PassChangeVerify_FullMethodName     = "/service.User/PassChangeVerify"
 	User_PassChange_FullMethodName           = "/service.User/PassChange"
+	User_EmailChangeVerify_FullMethodName    = "/service.User/EmailChangeVerify"
+	User_EmailChange_FullMethodName          = "/service.User/EmailChange"
 )
 
 // UserClient is the client API for User service.
@@ -37,8 +40,11 @@ type UserClient interface {
 	UserQuery(ctx context.Context, in *QueryReq, opts ...grpc.CallOption) (*UserQueryResp, error)
 	UserHomeQuery(ctx context.Context, in *QueryReq, opts ...grpc.CallOption) (*UserHomeQueryResp, error)
 	UserInteractionQuery(ctx context.Context, in *QueryReq, opts ...grpc.CallOption) (*UserInteractionQueryResp, error)
+	MeInfoUpdate(ctx context.Context, in *MeInfoUpdateReq, opts ...grpc.CallOption) (*MeInfoUpdateResp, error)
 	PassChangeVerify(ctx context.Context, in *PassChangeVerifyReq, opts ...grpc.CallOption) (*PassChangeVerifyResp, error)
 	PassChange(ctx context.Context, in *PassChangeReq, opts ...grpc.CallOption) (*PassChangeResp, error)
+	EmailChangeVerify(ctx context.Context, in *EmailChangeVerifyReq, opts ...grpc.CallOption) (*EmailChangeVerifyResp, error)
+	EmailChange(ctx context.Context, in *EmailChangeReq, opts ...grpc.CallOption) (*EmailChangeResp, error)
 }
 
 type userClient struct {
@@ -94,6 +100,15 @@ func (c *userClient) UserInteractionQuery(ctx context.Context, in *QueryReq, opt
 	return out, nil
 }
 
+func (c *userClient) MeInfoUpdate(ctx context.Context, in *MeInfoUpdateReq, opts ...grpc.CallOption) (*MeInfoUpdateResp, error) {
+	out := new(MeInfoUpdateResp)
+	err := c.cc.Invoke(ctx, User_MeInfoUpdate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userClient) PassChangeVerify(ctx context.Context, in *PassChangeVerifyReq, opts ...grpc.CallOption) (*PassChangeVerifyResp, error) {
 	out := new(PassChangeVerifyResp)
 	err := c.cc.Invoke(ctx, User_PassChangeVerify_FullMethodName, in, out, opts...)
@@ -112,6 +127,24 @@ func (c *userClient) PassChange(ctx context.Context, in *PassChangeReq, opts ...
 	return out, nil
 }
 
+func (c *userClient) EmailChangeVerify(ctx context.Context, in *EmailChangeVerifyReq, opts ...grpc.CallOption) (*EmailChangeVerifyResp, error) {
+	out := new(EmailChangeVerifyResp)
+	err := c.cc.Invoke(ctx, User_EmailChangeVerify_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) EmailChange(ctx context.Context, in *EmailChangeReq, opts ...grpc.CallOption) (*EmailChangeResp, error) {
+	out := new(EmailChangeResp)
+	err := c.cc.Invoke(ctx, User_EmailChange_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -121,8 +154,11 @@ type UserServer interface {
 	UserQuery(context.Context, *QueryReq) (*UserQueryResp, error)
 	UserHomeQuery(context.Context, *QueryReq) (*UserHomeQueryResp, error)
 	UserInteractionQuery(context.Context, *QueryReq) (*UserInteractionQueryResp, error)
+	MeInfoUpdate(context.Context, *MeInfoUpdateReq) (*MeInfoUpdateResp, error)
 	PassChangeVerify(context.Context, *PassChangeVerifyReq) (*PassChangeVerifyResp, error)
 	PassChange(context.Context, *PassChangeReq) (*PassChangeResp, error)
+	EmailChangeVerify(context.Context, *EmailChangeVerifyReq) (*EmailChangeVerifyResp, error)
+	EmailChange(context.Context, *EmailChangeReq) (*EmailChangeResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -145,11 +181,20 @@ func (UnimplementedUserServer) UserHomeQuery(context.Context, *QueryReq) (*UserH
 func (UnimplementedUserServer) UserInteractionQuery(context.Context, *QueryReq) (*UserInteractionQueryResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserInteractionQuery not implemented")
 }
+func (UnimplementedUserServer) MeInfoUpdate(context.Context, *MeInfoUpdateReq) (*MeInfoUpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MeInfoUpdate not implemented")
+}
 func (UnimplementedUserServer) PassChangeVerify(context.Context, *PassChangeVerifyReq) (*PassChangeVerifyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PassChangeVerify not implemented")
 }
 func (UnimplementedUserServer) PassChange(context.Context, *PassChangeReq) (*PassChangeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PassChange not implemented")
+}
+func (UnimplementedUserServer) EmailChangeVerify(context.Context, *EmailChangeVerifyReq) (*EmailChangeVerifyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EmailChangeVerify not implemented")
+}
+func (UnimplementedUserServer) EmailChange(context.Context, *EmailChangeReq) (*EmailChangeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EmailChange not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -254,6 +299,24 @@ func _User_UserInteractionQuery_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_MeInfoUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MeInfoUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).MeInfoUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_MeInfoUpdate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).MeInfoUpdate(ctx, req.(*MeInfoUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _User_PassChangeVerify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PassChangeVerifyReq)
 	if err := dec(in); err != nil {
@@ -290,6 +353,42 @@ func _User_PassChange_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_EmailChangeVerify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmailChangeVerifyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).EmailChangeVerify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_EmailChangeVerify_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).EmailChangeVerify(ctx, req.(*EmailChangeVerifyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_EmailChange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmailChangeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).EmailChange(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_EmailChange_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).EmailChange(ctx, req.(*EmailChangeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -318,12 +417,24 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_UserInteractionQuery_Handler,
 		},
 		{
+			MethodName: "MeInfoUpdate",
+			Handler:    _User_MeInfoUpdate_Handler,
+		},
+		{
 			MethodName: "PassChangeVerify",
 			Handler:    _User_PassChangeVerify_Handler,
 		},
 		{
 			MethodName: "PassChange",
 			Handler:    _User_PassChange_Handler,
+		},
+		{
+			MethodName: "EmailChangeVerify",
+			Handler:    _User_EmailChangeVerify_Handler,
+		},
+		{
+			MethodName: "EmailChange",
+			Handler:    _User_EmailChange_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

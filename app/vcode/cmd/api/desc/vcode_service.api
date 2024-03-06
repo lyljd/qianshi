@@ -8,8 +8,11 @@ import "vcode_type.api"
 )
 service Vcode {
 	@handler Login
-	post /login (EmailReq) returns (EmailResp)
+	post /login (LoginReq) returns (EmailResp)
 
 	@handler ChangePassword
-	post /change-password (EmailReq) returns (EmailResp)
+	post /change-password (ChangePasswordReq) returns (EmailResp)
+
+	@handler ChangeEmail
+	post /change-email (ChangeEmailReq) returns (EmailResp)
 }

@@ -36,6 +36,9 @@ func (l *EmailLoginLogic) EmailLogin(req *types.EmailLoginReq, ip string) (resp 
 		if errorxs.Is(err, errorxs.ErrVcodeWrong) {
 			return nil, errorx.New(errorx.CodeParamError, err, err.Error())
 		}
+		if errorxs.Is(err, errorxs.ErrKeyNotFound) {
+			return nil, errorx.New(errorx.CodeParamError, err, "请先获取验证码")
+		}
 		return nil, errorx.New(errorx.CodeServerError, err)
 	}
 

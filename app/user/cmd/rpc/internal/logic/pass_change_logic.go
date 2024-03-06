@@ -45,18 +45,20 @@ func (l *PassChangeLogic) PassChange(in *__.PassChangeReq) (*__.PassChangeResp, 
 		return nil, errorxs.ErrChangePassVerifyFail
 	}
 
-	if err := l.svcCtx.Redis.Del(l.ctx, verifyKey).Err(); err != nil {
-		return nil, errorx.New(errorx.CodeParamError, err)
-	}
-
 	// 加密密码
 	pass, err := tool.Sha256(in.Pass, l.svcCtx.Config.PassSecret, "")
 	if err != nil {
 		return nil, err
 	}
 
+	// 如果新密码和旧密码相同，则不清除已验证key（还有机会重新传密码）
 	if u.Password == pass {
 		return nil, errorxs.ErrOldPassSameAsNewPass
+	}
+
+	// 清除已验证key
+	if err := l.svcCtx.Redis.Del(l.ctx, verifyKey).Err(); err != nil {
+		return nil, errorx.New(errorx.CodeParamError, err)
 	}
 
 	// 生成token

@@ -23,7 +23,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 	}
 }
 
-func (l *LoginLogic) Login(req *types.EmailReq) (resp *types.EmailResp, err error) {
+func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.EmailResp, err error) {
 	verifyKey := key.GetVcodeLoginVerify(req.Email)
 
 	subject := "【浅时】验证码"
