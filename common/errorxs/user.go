@@ -14,4 +14,5 @@ var (
 	ErrWrongProcessSequence  = errors.New("错误的流程顺序")
 	ErrEmailHasBind          = errors.New("该邮箱已绑定其他账号")
 	ErrChangeEmailVerifyFail = errors.New("修改邮箱前验证未通过")
+	ErrOldSigSameAsNewSig    = errors.New("新签名与原签名相同")
 )

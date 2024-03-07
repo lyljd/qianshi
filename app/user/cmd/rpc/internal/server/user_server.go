@@ -71,3 +71,13 @@ func (s *UserServer) EmailChange(ctx context.Context, in *__.EmailChangeReq) (*_
 	l := logic.NewEmailChangeLogic(ctx, s.svcCtx)
 	return l.EmailChange(in)
 }
+
+func (s *UserServer) UserSignatureUpdate(ctx context.Context, in *__.UserSignatureUpdateReq) (*__.UserSignatureUpdateResp, error) {
+	l := logic.NewUserSignatureUpdateLogic(ctx, s.svcCtx)
+	return l.UserSignatureUpdate(in)
+}
+
+func (s *UserServer) UserHomeTopImgNoUpdate(ctx context.Context, in *__.UserHomeTopImgNoUpdateReq) (*__.UserHomeTopImgNoUpdateResp, error) {
+	l := logic.NewUserHomeTopImgNoUpdateLogic(ctx, s.svcCtx)
+	return l.UserHomeTopImgNoUpdate(in)
+}

@@ -19,16 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_EmailLogin_FullMethodName           = "/service.User/EmailLogin"
-	User_PassLogin_FullMethodName            = "/service.User/PassLogin"
-	User_UserQuery_FullMethodName            = "/service.User/UserQuery"
-	User_UserHomeQuery_FullMethodName        = "/service.User/UserHomeQuery"
-	User_UserInteractionQuery_FullMethodName = "/service.User/UserInteractionQuery"
-	User_MeInfoUpdate_FullMethodName         = "/service.User/MeInfoUpdate"
-	User_PassChangeVerify_FullMethodName     = "/service.User/PassChangeVerify"
-	User_PassChange_FullMethodName           = "/service.User/PassChange"
-	User_EmailChangeVerify_FullMethodName    = "/service.User/EmailChangeVerify"
-	User_EmailChange_FullMethodName          = "/service.User/EmailChange"
+	User_EmailLogin_FullMethodName             = "/service.User/EmailLogin"
+	User_PassLogin_FullMethodName              = "/service.User/PassLogin"
+	User_UserQuery_FullMethodName              = "/service.User/UserQuery"
+	User_UserHomeQuery_FullMethodName          = "/service.User/UserHomeQuery"
+	User_UserInteractionQuery_FullMethodName   = "/service.User/UserInteractionQuery"
+	User_MeInfoUpdate_FullMethodName           = "/service.User/MeInfoUpdate"
+	User_PassChangeVerify_FullMethodName       = "/service.User/PassChangeVerify"
+	User_PassChange_FullMethodName             = "/service.User/PassChange"
+	User_EmailChangeVerify_FullMethodName      = "/service.User/EmailChangeVerify"
+	User_EmailChange_FullMethodName            = "/service.User/EmailChange"
+	User_UserSignatureUpdate_FullMethodName    = "/service.User/UserSignatureUpdate"
+	User_UserHomeTopImgNoUpdate_FullMethodName = "/service.User/UserHomeTopImgNoUpdate"
 )
 
 // UserClient is the client API for User service.
@@ -45,6 +47,8 @@ type UserClient interface {
 	PassChange(ctx context.Context, in *PassChangeReq, opts ...grpc.CallOption) (*PassChangeResp, error)
 	EmailChangeVerify(ctx context.Context, in *EmailChangeVerifyReq, opts ...grpc.CallOption) (*EmailChangeVerifyResp, error)
 	EmailChange(ctx context.Context, in *EmailChangeReq, opts ...grpc.CallOption) (*EmailChangeResp, error)
+	UserSignatureUpdate(ctx context.Context, in *UserSignatureUpdateReq, opts ...grpc.CallOption) (*UserSignatureUpdateResp, error)
+	UserHomeTopImgNoUpdate(ctx context.Context, in *UserHomeTopImgNoUpdateReq, opts ...grpc.CallOption) (*UserHomeTopImgNoUpdateResp, error)
 }
 
 type userClient struct {
@@ -145,6 +149,24 @@ func (c *userClient) EmailChange(ctx context.Context, in *EmailChangeReq, opts .
 	return out, nil
 }
 
+func (c *userClient) UserSignatureUpdate(ctx context.Context, in *UserSignatureUpdateReq, opts ...grpc.CallOption) (*UserSignatureUpdateResp, error) {
+	out := new(UserSignatureUpdateResp)
+	err := c.cc.Invoke(ctx, User_UserSignatureUpdate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UserHomeTopImgNoUpdate(ctx context.Context, in *UserHomeTopImgNoUpdateReq, opts ...grpc.CallOption) (*UserHomeTopImgNoUpdateResp, error) {
+	out := new(UserHomeTopImgNoUpdateResp)
+	err := c.cc.Invoke(ctx, User_UserHomeTopImgNoUpdate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -159,6 +181,8 @@ type UserServer interface {
 	PassChange(context.Context, *PassChangeReq) (*PassChangeResp, error)
 	EmailChangeVerify(context.Context, *EmailChangeVerifyReq) (*EmailChangeVerifyResp, error)
 	EmailChange(context.Context, *EmailChangeReq) (*EmailChangeResp, error)
+	UserSignatureUpdate(context.Context, *UserSignatureUpdateReq) (*UserSignatureUpdateResp, error)
+	UserHomeTopImgNoUpdate(context.Context, *UserHomeTopImgNoUpdateReq) (*UserHomeTopImgNoUpdateResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -195,6 +219,12 @@ func (UnimplementedUserServer) EmailChangeVerify(context.Context, *EmailChangeVe
 }
 func (UnimplementedUserServer) EmailChange(context.Context, *EmailChangeReq) (*EmailChangeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EmailChange not implemented")
+}
+func (UnimplementedUserServer) UserSignatureUpdate(context.Context, *UserSignatureUpdateReq) (*UserSignatureUpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserSignatureUpdate not implemented")
+}
+func (UnimplementedUserServer) UserHomeTopImgNoUpdate(context.Context, *UserHomeTopImgNoUpdateReq) (*UserHomeTopImgNoUpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserHomeTopImgNoUpdate not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -389,6 +419,42 @@ func _User_EmailChange_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_UserSignatureUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserSignatureUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserSignatureUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UserSignatureUpdate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserSignatureUpdate(ctx, req.(*UserSignatureUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UserHomeTopImgNoUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserHomeTopImgNoUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserHomeTopImgNoUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UserHomeTopImgNoUpdate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserHomeTopImgNoUpdate(ctx, req.(*UserHomeTopImgNoUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -435,6 +501,14 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EmailChange",
 			Handler:    _User_EmailChange_Handler,
+		},
+		{
+			MethodName: "UserSignatureUpdate",
+			Handler:    _User_UserSignatureUpdate_Handler,
+		},
+		{
+			MethodName: "UserHomeTopImgNoUpdate",
+			Handler:    _User_UserHomeTopImgNoUpdate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

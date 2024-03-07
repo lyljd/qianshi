@@ -141,6 +141,22 @@ message MeInfoUpdateReq {
 message MeInfoUpdateResp {
 }
 
+message UserSignatureUpdateReq {
+  uint64 id = 1;
+  string newSignature = 2;
+}
+
+message UserSignatureUpdateResp {
+}
+
+message UserHomeTopImgNoUpdateReq {
+  uint64 id = 1;
+  int64 newTopImgNo = 2;
+}
+
+message UserHomeTopImgNoUpdateResp {
+}
+
 service User {
   rpc EmailLogin(EmailLoginReq) returns (LoginResp);
   rpc PassLogin(PassLoginReq) returns (LoginResp);
@@ -154,4 +170,7 @@ service User {
 
   rpc EmailChangeVerify(EmailChangeVerifyReq) returns (EmailChangeVerifyResp);
   rpc EmailChange(EmailChangeReq) returns (EmailChangeResp);
+
+  rpc UserSignatureUpdate (UserSignatureUpdateReq) returns (UserSignatureUpdateResp);
+  rpc UserHomeTopImgNoUpdate (UserHomeTopImgNoUpdateReq) returns (UserHomeTopImgNoUpdateResp);
 }

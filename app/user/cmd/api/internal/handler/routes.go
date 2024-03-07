@@ -6,6 +6,7 @@ import (
 
 	login "qianshi/app/user/cmd/api/internal/handler/login"
 	me "qianshi/app/user/cmd/api/internal/handler/me"
+	user "qianshi/app/user/cmd/api/internal/handler/user"
 	"qianshi/app/user/cmd/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -85,7 +86,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/email/change",
 				Handler: me.MeEmailChangeHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/signature",
+				Handler: me.MeSigUpdateHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/top-img-no",
+				Handler: me.MeTopImgNoUpdateHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/api/v1/user/me"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/:id",
+				Handler: user.UserInfoHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1/user"),
 	)
 }

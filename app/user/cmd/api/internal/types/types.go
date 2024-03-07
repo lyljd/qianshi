@@ -88,3 +88,37 @@ type MeEmailVerifyResp struct {
 type MeEmailChangeReq struct {
 	Email string `json:"email"`
 }
+
+type MeSigUpdateReq struct {
+	NewSignature string `json:"newSignature"`
+}
+
+type MeTopImgNoUpdateReq struct {
+	TopImgNo int `json:"topImgNo"`
+}
+
+type UserInfoReq struct {
+	Id uint64 `path:"id"`
+}
+
+type UserInfoResp struct {
+	Uid           int    `json:"uid"`
+	Nickname      string `json:"nickname"`
+	Signature     string `json:"signature"`
+	AvatarUrl     string `json:"avatarUrl"`
+	Gender        string `json:"gender"`
+	Level         int    `json:"level"`
+	IsVip         bool   `json:"isVip"`
+	IpLocation    string `json:"ipLocation"`
+	TopImgNo      int    `json:"topImgNo"`
+	IsFocu        bool   `json:"isFocu"`
+	IsBlock       bool   `json:"isBlock"`
+	PostNum       int    `json:"postNum"`
+	CollectionNum int    `json:"collectionNum"`
+	FavlistNum    int    `json:"favlistNum"`
+	FollowNum     int    `json:"followNum"`
+	FanNum        int    `json:"fanNum"`
+	LikeNum       int    `json:"likeNum"`
+	PlayNum       int    `json:"playNum"`
+	ReadNum       int    `json:"readNum"`
+}

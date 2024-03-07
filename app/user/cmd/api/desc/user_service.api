@@ -51,4 +51,19 @@ service User {
 
 	@handler MeEmailChange
 	post /email/change (MeEmailChangeReq)
+
+	@handler MeSigUpdate
+	put /signature (MeSigUpdateReq)
+
+	@handler MeTopImgNoUpdate
+	put /top-img-no (MeTopImgNoUpdateReq)
+}
+
+@server(
+	prefix: /api/v1/user
+	group: user
+)
+service User {
+	@handler UserInfo
+	get /:id (UserInfoReq) returns (UserInfoResp)
 }

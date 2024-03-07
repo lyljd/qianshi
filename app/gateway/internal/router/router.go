@@ -44,6 +44,8 @@ var Routers = []Router{
 							{Path: "change"},
 						},
 					},
+					{Path: "signature"},
+					{Path: "top-img-no"},
 				},
 			},
 		},

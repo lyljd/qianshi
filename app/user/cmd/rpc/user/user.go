@@ -13,23 +13,27 @@ import (
 )
 
 type (
-	EmailChangeReq           = __.EmailChangeReq
-	EmailChangeResp          = __.EmailChangeResp
-	EmailChangeVerifyReq     = __.EmailChangeVerifyReq
-	EmailChangeVerifyResp    = __.EmailChangeVerifyResp
-	EmailLoginReq            = __.EmailLoginReq
-	LoginResp                = __.LoginResp
-	MeInfoUpdateReq          = __.MeInfoUpdateReq
-	MeInfoUpdateResp         = __.MeInfoUpdateResp
-	PassChangeReq            = __.PassChangeReq
-	PassChangeResp           = __.PassChangeResp
-	PassChangeVerifyReq      = __.PassChangeVerifyReq
-	PassChangeVerifyResp     = __.PassChangeVerifyResp
-	PassLoginReq             = __.PassLoginReq
-	QueryReq                 = __.QueryReq
-	UserHomeQueryResp        = __.UserHomeQueryResp
-	UserInteractionQueryResp = __.UserInteractionQueryResp
-	UserQueryResp            = __.UserQueryResp
+	EmailChangeReq             = __.EmailChangeReq
+	EmailChangeResp            = __.EmailChangeResp
+	EmailChangeVerifyReq       = __.EmailChangeVerifyReq
+	EmailChangeVerifyResp      = __.EmailChangeVerifyResp
+	EmailLoginReq              = __.EmailLoginReq
+	LoginResp                  = __.LoginResp
+	MeInfoUpdateReq            = __.MeInfoUpdateReq
+	MeInfoUpdateResp           = __.MeInfoUpdateResp
+	PassChangeReq              = __.PassChangeReq
+	PassChangeResp             = __.PassChangeResp
+	PassChangeVerifyReq        = __.PassChangeVerifyReq
+	PassChangeVerifyResp       = __.PassChangeVerifyResp
+	PassLoginReq               = __.PassLoginReq
+	QueryReq                   = __.QueryReq
+	UserHomeQueryResp          = __.UserHomeQueryResp
+	UserHomeTopImgNoUpdateReq  = __.UserHomeTopImgNoUpdateReq
+	UserHomeTopImgNoUpdateResp = __.UserHomeTopImgNoUpdateResp
+	UserInteractionQueryResp   = __.UserInteractionQueryResp
+	UserQueryResp              = __.UserQueryResp
+	UserSignatureUpdateReq     = __.UserSignatureUpdateReq
+	UserSignatureUpdateResp    = __.UserSignatureUpdateResp
 
 	User interface {
 		EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
@@ -42,6 +46,8 @@ type (
 		PassChange(ctx context.Context, in *PassChangeReq, opts ...grpc.CallOption) (*PassChangeResp, error)
 		EmailChangeVerify(ctx context.Context, in *EmailChangeVerifyReq, opts ...grpc.CallOption) (*EmailChangeVerifyResp, error)
 		EmailChange(ctx context.Context, in *EmailChangeReq, opts ...grpc.CallOption) (*EmailChangeResp, error)
+		UserSignatureUpdate(ctx context.Context, in *UserSignatureUpdateReq, opts ...grpc.CallOption) (*UserSignatureUpdateResp, error)
+		UserHomeTopImgNoUpdate(ctx context.Context, in *UserHomeTopImgNoUpdateReq, opts ...grpc.CallOption) (*UserHomeTopImgNoUpdateResp, error)
 	}
 
 	defaultUser struct {
@@ -103,4 +109,14 @@ func (m *defaultUser) EmailChangeVerify(ctx context.Context, in *EmailChangeVeri
 func (m *defaultUser) EmailChange(ctx context.Context, in *EmailChangeReq, opts ...grpc.CallOption) (*EmailChangeResp, error) {
 	client := __.NewUserClient(m.cli.Conn())
 	return client.EmailChange(ctx, in, opts...)
+}
+
+func (m *defaultUser) UserSignatureUpdate(ctx context.Context, in *UserSignatureUpdateReq, opts ...grpc.CallOption) (*UserSignatureUpdateResp, error) {
+	client := __.NewUserClient(m.cli.Conn())
+	return client.UserSignatureUpdate(ctx, in, opts...)
+}
+
+func (m *defaultUser) UserHomeTopImgNoUpdate(ctx context.Context, in *UserHomeTopImgNoUpdateReq, opts ...grpc.CallOption) (*UserHomeTopImgNoUpdateResp, error) {
+	client := __.NewUserClient(m.cli.Conn())
+	return client.UserHomeTopImgNoUpdate(ctx, in, opts...)
 }
