@@ -41,3 +41,8 @@ func (s *AuthenticationServer) VerifyRefreshToken(ctx context.Context, in *__.Ve
 	l := logic.NewVerifyRefreshTokenLogic(ctx, s.svcCtx)
 	return l.VerifyRefreshToken(in)
 }
+
+func (s *AuthenticationServer) SignatureCdnGet(ctx context.Context, in *__.SignatureCdnGetReq) (*__.SignatureCdnGetResp, error) {
+	l := logic.NewSignatureCdnGetLogic(ctx, s.svcCtx)
+	return l.SignatureCdnGet(in)
+}

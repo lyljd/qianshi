@@ -17,6 +17,8 @@ type (
 	GenerateRefreshTokenResp = __.GenerateRefreshTokenResp
 	GenerateTokenReq         = __.GenerateTokenReq
 	GenerateTokenResp        = __.GenerateTokenResp
+	SignatureCdnGetReq       = __.SignatureCdnGetReq
+	SignatureCdnGetResp      = __.SignatureCdnGetResp
 	VerifyRefreshTokenReq    = __.VerifyRefreshTokenReq
 	VerifyRefreshTokenResp   = __.VerifyRefreshTokenResp
 	VerifyTokenReq           = __.VerifyTokenReq
@@ -27,6 +29,7 @@ type (
 		GenerateRefreshToken(ctx context.Context, in *GenerateRefreshTokenReq, opts ...grpc.CallOption) (*GenerateRefreshTokenResp, error)
 		VerifyToken(ctx context.Context, in *VerifyTokenReq, opts ...grpc.CallOption) (*VerifyTokenResp, error)
 		VerifyRefreshToken(ctx context.Context, in *VerifyRefreshTokenReq, opts ...grpc.CallOption) (*VerifyRefreshTokenResp, error)
+		SignatureCdnGet(ctx context.Context, in *SignatureCdnGetReq, opts ...grpc.CallOption) (*SignatureCdnGetResp, error)
 	}
 
 	defaultAuthentication struct {
@@ -58,4 +61,9 @@ func (m *defaultAuthentication) VerifyToken(ctx context.Context, in *VerifyToken
 func (m *defaultAuthentication) VerifyRefreshToken(ctx context.Context, in *VerifyRefreshTokenReq, opts ...grpc.CallOption) (*VerifyRefreshTokenResp, error) {
 	client := __.NewAuthenticationClient(m.cli.Conn())
 	return client.VerifyRefreshToken(ctx, in, opts...)
+}
+
+func (m *defaultAuthentication) SignatureCdnGet(ctx context.Context, in *SignatureCdnGetReq, opts ...grpc.CallOption) (*SignatureCdnGetResp, error) {
+	client := __.NewAuthenticationClient(m.cli.Conn())
+	return client.SignatureCdnGet(ctx, in, opts...)
 }

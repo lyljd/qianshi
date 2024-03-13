@@ -23,6 +23,7 @@ const (
 	Authentication_GenerateRefreshToken_FullMethodName = "/service.Authentication/GenerateRefreshToken"
 	Authentication_VerifyToken_FullMethodName          = "/service.Authentication/VerifyToken"
 	Authentication_VerifyRefreshToken_FullMethodName   = "/service.Authentication/VerifyRefreshToken"
+	Authentication_SignatureCdnGet_FullMethodName      = "/service.Authentication/SignatureCdnGet"
 )
 
 // AuthenticationClient is the client API for Authentication service.
@@ -33,6 +34,7 @@ type AuthenticationClient interface {
 	GenerateRefreshToken(ctx context.Context, in *GenerateRefreshTokenReq, opts ...grpc.CallOption) (*GenerateRefreshTokenResp, error)
 	VerifyToken(ctx context.Context, in *VerifyTokenReq, opts ...grpc.CallOption) (*VerifyTokenResp, error)
 	VerifyRefreshToken(ctx context.Context, in *VerifyRefreshTokenReq, opts ...grpc.CallOption) (*VerifyRefreshTokenResp, error)
+	SignatureCdnGet(ctx context.Context, in *SignatureCdnGetReq, opts ...grpc.CallOption) (*SignatureCdnGetResp, error)
 }
 
 type authenticationClient struct {
@@ -79,6 +81,15 @@ func (c *authenticationClient) VerifyRefreshToken(ctx context.Context, in *Verif
 	return out, nil
 }
 
+func (c *authenticationClient) SignatureCdnGet(ctx context.Context, in *SignatureCdnGetReq, opts ...grpc.CallOption) (*SignatureCdnGetResp, error) {
+	out := new(SignatureCdnGetResp)
+	err := c.cc.Invoke(ctx, Authentication_SignatureCdnGet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServer is the server API for Authentication service.
 // All implementations must embed UnimplementedAuthenticationServer
 // for forward compatibility
@@ -87,6 +98,7 @@ type AuthenticationServer interface {
 	GenerateRefreshToken(context.Context, *GenerateRefreshTokenReq) (*GenerateRefreshTokenResp, error)
 	VerifyToken(context.Context, *VerifyTokenReq) (*VerifyTokenResp, error)
 	VerifyRefreshToken(context.Context, *VerifyRefreshTokenReq) (*VerifyRefreshTokenResp, error)
+	SignatureCdnGet(context.Context, *SignatureCdnGetReq) (*SignatureCdnGetResp, error)
 	mustEmbedUnimplementedAuthenticationServer()
 }
 
@@ -105,6 +117,9 @@ func (UnimplementedAuthenticationServer) VerifyToken(context.Context, *VerifyTok
 }
 func (UnimplementedAuthenticationServer) VerifyRefreshToken(context.Context, *VerifyRefreshTokenReq) (*VerifyRefreshTokenResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyRefreshToken not implemented")
+}
+func (UnimplementedAuthenticationServer) SignatureCdnGet(context.Context, *SignatureCdnGetReq) (*SignatureCdnGetResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SignatureCdnGet not implemented")
 }
 func (UnimplementedAuthenticationServer) mustEmbedUnimplementedAuthenticationServer() {}
 
@@ -191,6 +206,24 @@ func _Authentication_VerifyRefreshToken_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_SignatureCdnGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignatureCdnGetReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).SignatureCdnGet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_SignatureCdnGet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).SignatureCdnGet(ctx, req.(*SignatureCdnGetReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -213,6 +246,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyRefreshToken",
 			Handler:    _Authentication_VerifyRefreshToken_Handler,
+		},
+		{
+			MethodName: "SignatureCdnGet",
+			Handler:    _Authentication_SignatureCdnGet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

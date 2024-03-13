@@ -2,8 +2,10 @@ package tool
 
 import (
 	"crypto/hmac"
+	"crypto/md5"
 	"crypto/sha256"
 	"encoding/base64"
+	"encoding/hex"
 	"strings"
 )
 
@@ -15,12 +17,19 @@ func Base64Decode(s string) ([]byte, error) {
 	return base64.RawURLEncoding.DecodeString(s)
 }
 
+// Sha256 HMAC-SHA256
 func Sha256(s, secret, salt string) (string, error) {
 	h := hmac.New(sha256.New, []byte(secret+salt))
 	if _, err := h.Write([]byte(s)); err != nil {
 		return "", err
 	}
 	return Base64Encode(h.Sum(nil)), nil
+}
+
+// MD5 common MD5
+func MD5(s string) string {
+	hash := md5.Sum([]byte(s))
+	return hex.EncodeToString(hash[:])
 }
 
 // EncEmail 加密邮箱（只针对@前加密；<=3时填充3个*；4、5时保留前后1位，中间填充等量*；，>=6时保留前后2位，中间填充2个*）

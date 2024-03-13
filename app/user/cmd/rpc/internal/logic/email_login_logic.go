@@ -10,15 +10,14 @@ import (
 	"math/rand"
 	"net/http"
 	__2 "qianshi/app/authentication/cmd/rpc/pb"
+	"qianshi/app/user/cmd/rpc/internal/svc"
+	"qianshi/app/user/cmd/rpc/pb"
 	"qianshi/app/user/model/userHomeModel"
 	"qianshi/app/user/model/userModel"
 	"qianshi/common/errorxs"
 	"qianshi/common/key"
 	"qianshi/common/tool"
 	"strings"
-
-	"qianshi/app/user/cmd/rpc/internal/svc"
-	"qianshi/app/user/cmd/rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -112,11 +111,20 @@ func loginCommon(ctx context.Context, svcCtx *svc.ServiceContext, u *userModel.U
 	newMessageNum := 233
 	newDynamicNum := 7
 
+	// 签名头像资源
+	sigResp, err := svcCtx.AuthenticationRpc.SignatureCdnGet(ctx, &__2.SignatureCdnGetReq{
+		Uid:      int64(u.ID),
+		FilePath: u.AvatarUrl,
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	return &__.LoginResp{
 		Token:         gtResp.Token,
 		RefreshToken:  rft,
 		Nickname:      u.Nickname,
-		AvatarUrl:     u.AvatarUrl,
+		AvatarUrl:     sigResp.Url,
 		NewMessageNum: int64(newMessageNum),
 		NewDynamicNum: int64(newDynamicNum),
 	}, nil

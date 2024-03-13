@@ -30,10 +30,21 @@ message VerifyRefreshTokenResp {
   int64 uid = 1;
 }
 
+message SignatureCdnGetReq {
+  int64 uid = 1;
+  string filePath = 2;
+}
+
+message SignatureCdnGetResp {
+  string url = 1;
+}
+
 service Authentication {
   rpc GenerateToken(GenerateTokenReq) returns (GenerateTokenResp);
   rpc GenerateRefreshToken(GenerateRefreshTokenReq) returns (GenerateRefreshTokenResp);
 
   rpc VerifyToken(VerifyTokenReq) returns (VerifyTokenResp);
   rpc VerifyRefreshToken(VerifyRefreshTokenReq) returns (VerifyRefreshTokenResp);
+
+  rpc SignatureCdnGet(SignatureCdnGetReq) returns (SignatureCdnGetResp);
 }

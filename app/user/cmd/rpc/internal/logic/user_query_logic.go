@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
+	__2 "qianshi/app/authentication/cmd/rpc/pb"
 	"qianshi/app/user/cmd/rpc/internal/svc"
 	"qianshi/app/user/cmd/rpc/pb"
 	"qianshi/app/user/model/userModel"
@@ -42,6 +43,16 @@ func (l *UserQueryLogic) UserQuery(in *__.QueryReq) (*__.UserQueryResp, error) {
 	} else {
 		return nil, errors.New("user查询关键字为空")
 	}
+
+	// 签名头像资源
+	sigResp, err := l.svcCtx.AuthenticationRpc.SignatureCdnGet(l.ctx, &__2.SignatureCdnGetReq{
+		Uid:      int64(u.ID),
+		FilePath: u.AvatarUrl,
+	})
+	if err != nil {
+		return nil, err
+	}
+	u.AvatarUrl = sigResp.Url
 
 	var resp __.UserQueryResp
 	if err = copier.Copy(&resp, &u); err != nil {

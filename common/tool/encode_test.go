@@ -30,6 +30,15 @@ func TestSha256(t *testing.T) {
 	fmt.Println(res)
 }
 
+func TestMD5(t *testing.T) {
+	sigKey := "/video/standard/test.mp4-1444435200-0-0-aliyuncdnexp1234"
+	res := "23bf85053008f5c0e791667a313e28ce"
+	if calcRes := MD5(sigKey); calcRes != res {
+		fmt.Println(calcRes)
+		t.Fail()
+	}
+}
+
 func TestEncEmail(t *testing.T) {
 	ems := []string{
 		"a@qianshi.fun",
